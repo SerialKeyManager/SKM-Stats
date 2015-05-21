@@ -1,0 +1,557 @@
+
+@{
+    ViewBag.Title = "Analytics";
+}
+
+<br />
+
+<div class="panel panel-primary">
+    <div class="panel-heading">@ViewBag.Name Overview</div>
+    <div class="panel-body">
+        <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">Requests in Total</div>
+                <div class="panel-body text-center" id="total">Loading...</div>
+            </div>
+        </div>
+            <div class="col-md-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading text-center">Requests Today</div>
+                    <div class="panel-body text-center" id="today">Loading...</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading text-center">Successful Requests</div>
+                    <div class="panel-body text-center" id="successful">Loading...</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-warning">
+                    <div class="panel-heading text-center">Failed Requests</div>
+                    <div class="panel-body text-center" id="failed">Loading...</div>
+                </div>
+            </div>
+
+        </div>
+        <hr />
+        
+        <div class="row">
+            <div class=" col-md-5">
+        <label for="" class="control-label col-md-2">To:</label> <input type="date" id="todate" class="form-control col-md-10"/>
+         </div>
+            <div class="col-md-7">
+        <label for="" class="control-label col-md-2">From:</label> <input type="date" id="fromdate" class="form-control col-md-7" />
+                <button onclick="getStats(privKey, true);" class="col-md-2 col-lg-offset-1 btn btn-primary">Update</button>
+                </div>
+        
+        </div>
+       <hr />
+        <h3>Successful vs. Unsuccessful Requests</h3>
+        <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body col-md-11">
+                    <div class="text-info text-center">Number of <b class="text-success">successful</b> vs. <b class="text-warning">unsuccessful</b> request for a given method</div>
+                    <canvas id="canvas"></canvas>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>       
+      
+
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body col-md-11">
+                        <div class="text-info text-center">Total Number of Requests For the Specified Period</div>
+                        <canvas id="canvas2"></canvas>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                </div>
+</div>
+        <hr />
+        <h3>Spread of Requests (During the Day)</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body col-md-11" style="height:315px;">
+                        <div class="text-info text-center">Total Number of Requests vs. Time During the Day</div>
+                        <canvas id="canvas3"></canvas>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body col-md-11" style="height:315px;">
+                        <div class="text-info text-center" style="margin-bottom:5px;">Percentange of Total Number of Requests vs. Time During the Day</div>
+                        <div class="col-md-3">
+                        <table class="table table-bordered">
+                            <tr><th>Hour</th><th>%</th></tr>
+                            <tr><td>0</td><td id="hour0">...</td></tr>
+                            <tr><td>1</td><td id="hour1">...</td></tr>
+                            <tr><td>2</td><td id="hour2">...</td></tr>
+                            <tr><td>3</td><td id="hour3">...</td></tr>
+                            <tr><td>4</td><td id="hour4">...</td></tr>
+                            <tr><td>5</td><td id="hour5">...</td></tr>
+                            
+                        </table>
+
+                            </div>
+                        <div class="col-md-3">
+                            <table class="table table-bordered">
+                                <tr><th>Hour</th><th>%</th></tr>
+                                <tr><td>6</td><td id="hour6">...</td></tr>
+                                <tr><td>7</td><td id="hour7">...</td></tr>
+                                <tr><td>8</td><td id="hour8">...</td></tr>
+                                <tr><td>9</td><td id="hour9">...</td></tr>
+                                <tr><td>10</td><td id="hour10">...</td></tr>
+                                <tr><td>11</td><td id="hour11">...</td></tr>
+                            </table>
+                        </div>
+
+                        <div class="col-md-3">
+                            <table class="table table-bordered">
+                                <tr><th>Hour</th><th>%</th></tr>
+                                <tr><td>12</td><td id="hour12">...</td></tr>
+                                <tr><td>13</td><td id="hour13">...</td></tr>
+                                <tr><td>14</td><td id="hour14">...</td></tr>
+                                <tr><td>15</td><td id="hour15">...</td></tr>
+                                <tr><td>16</td><td id="hour16">...</td></tr>
+                                <tr><td>17</td><td id="hour17">...</td></tr>
+
+                            </table>
+
+                        </div>
+                        <div class="col-md-3">
+                            <table class="table table-bordered">
+                                <tr><th>Hour</th><th>%</th></tr>
+                                <tr><td>18</td><td id="hour18">...</td></tr>
+                                <tr><td>19</td><td id="hour19">...</td></tr>
+                                <tr><td>20</td><td id="hour20">...</td></tr>
+                                <tr><td>21</td><td id="hour21">...</td></tr>
+                                <tr><td>22</td><td id="hour22">...</td></tr>
+                                <tr><td>23</td><td id="hour23">...</td></tr>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+            </div>
+
+    </div>
+
+
+@section Scripts
+{
+@Scripts.Render("~/Content/chartjs")
+    <script type="text/javascript">
+        var privKey = "";
+        
+        // KEEP in mind, the 30 days back thing should actually go back for the entire period of time.
+        $(document).ready(function () {
+           
+            // initialization
+            var now = new Date();
+            todate.value = getISODateOnly(now);
+            fromdate.value = getISODateOnly(addTime(now, -30, 0));
+
+            $.ajax({
+                url: "/Account/UPK/False", success: function (result) {
+                    privKey = result;
+                    getStats(result, false);
+                }, error: function () { alert("Unable to retrieve the Private Key.\n If this error remains, please contact the support team.") }
+            });
+        });
+
+        function getStats(privateKey, u) {
+            //stats = "";
+                
+            if (u) {
+
+                if(checkDate(new Date(fromdate.value) ) && checkDate( new Date(todate.value))) {
+                    // I think it is not good practise to store diff. line graphs in the same object. (now fixed.)
+                    myBar.destroy();
+                    myLine2.destroy();
+                    myLine3.destroy();
+                } else {
+                    alert("Either the 'from' or 'to' date is incorrectly formatted. ");
+                    return false;
+                }
+                }
+                $.ajax({
+                    url: "@Url.Action("WebAPILog", "Ext", null)/?uid=@ViewBag.uid&privateKey=" + privateKey + "&typeOfLog=@ViewBag.todo&range=0&id=@ViewBag.id&fromdate=" + fromdate.value + "&todate=" + todate.value, success: function (result) {
+                        doStats(result);
+                    }});
+         
+            
+        }
+
+        // returns yyyy-MM-dd
+        function getISODateOnly(date) {
+            var dateArray = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+            return date.getFullYear() + "-" + dateArray[date.getMonth()] + "-" + date.getDate();
+        }
+
+        function doStats(data) {
+
+            //alert(data[0].Pid);
+
+            
+            
+            $("#total").html(addCommas(data.length));
+
+            var failed = 0;
+            var now = new Date();
+            var requestsToday = 0;
+            //failed = data.
+            jQuery.each(data, function (i, v) {
+                var s = v.State % 100;
+                if (s >= 20)
+                    failed++;
+
+                var before = new Date(v.Time);
+                
+                if(Math.abs(now - before) <= 86400000)
+                    requestsToday++;
+            });
+
+            var success = data.length - failed; // simple arithmetic.
+            
+
+            $("#successful").html(addCommas(success) + " (" + ((success / data.length) * 100).toFixed(2) + "%)");
+            $("#failed").html(addCommas(failed) + " (" + ((failed / data.length) * 100).toFixed(2) + "%)")
+            $("#today").html(addCommas(requestsToday));
+
+            //activation
+
+            var generalData = newFilledArray(5, 0); // failed.
+            var failedData = newFilledArray(5, 0); // failed.
+
+            // first, only failed data.
+            jQuery.each(data, function (i, v) {
+
+                var state = v.State;
+                if (state >= 6020) {
+                    failedData[1]++;
+                } else if (state >= 5020) {
+                    // no action defined.
+                } else if (state >= 4020 && state < 5000) {
+                    failedData[4]++; // optional field.
+                } else if (state >= 3020 && state < 4000) {
+                    failedData[3]++;
+                } else if (state >= 2020 && state < 3000) {
+                    failedData[0]++;
+                } else if (state >= 1020 && state < 2000) {
+                    failedData[2]++;
+                }
+            });
+
+            // now, the general data
+            jQuery.each(data, function (i, v) {
+
+                var state = v.State;
+                if (state >= 6000) {
+                    generalData[1]++;
+                } else if (state >= 5000) {
+                    // no action defined.
+                } else if (state >= 4000) {
+                    generalData[4]++; // optional field.
+                } else if (state >= 3000) {
+                    generalData[3]++;
+                } else if (state >= 2000) {
+                    generalData[0]++;
+                } else if (state >= 1000) {
+                    generalData[2]++;
+                }
+            });
+
+
+            var successfulData = new Array(5);
+
+            for (var i = 0; i < 5; i++) {
+                successfulData[i] = generalData[i] - failedData[i];
+            }
+
+
+            var barChartData = {
+                labels: ["Activation", "Deactivation", "Validation", "Generation", "Optional Field"],
+                datasets: [
+                    {
+                        fillColor: "rgb(89, 165, 89)",
+                        strokeColor: "rgb(71, 132, 71)",
+                        highlightFill: "rgba(89, 165, 89, 0.7)",
+                        highlightStroke: "rgba(89, 165, 89, 0.7)",
+                        data: successfulData
+                    },
+                    {
+                        fillColor: "rgb(203, 221, 8)",
+                        strokeColor: "rgb(165, 175, 53)",
+                        highlightFill: "rgba(221, 239, 15, 0.38)",
+                        highlightStroke: "rgba(221, 239, 15, 0.38)",
+                        data: failedData
+                    }
+                ]
+
+            };
+
+            loadGraph(barChartData);
+
+            var noOfDays = (new Date(todate.value) - new Date(fromdate.value)) / 86400000;
+            noOfDays = Math.ceil(noOfDays);
+            var countDayMonthYear = 0; // 0 = days, 1 = month, and 2 =year.
+            if (noOfDays > 30) {
+                noOfDays /= 30;
+                countDayMonthYear = 1;
+                noOfDays = Math.ceil(noOfDays);
+
+                if (noOfDays > 30) {
+                    countDayMonthYear = 2;
+                    noOfDays /= 12;
+                    noOfDays = Math.ceil(noOfDays);
+                }
+                
+            }
+            var dates = new Array(noOfDays); // five days back.
+            var requests = newFilledArray(noOfDays, 0);
+            var startfrom = new Date(todate.value);
+            
+            switch (countDayMonthYear) {
+                case 2:
+                    startfrom.setMonth(0);
+                case 1:
+                    startfrom.setDate(1);
+                case 0:
+                    startfrom.setHours(0);
+                    startfrom.setMinutes(0);
+                    startfrom.setSeconds(0);
+                    break;
+            }
+
+            var before = new Date();
+            var beforeplus = new Date();
+
+
+            for (var j = 0; j < noOfDays; j++) {
+                before = addTime(startfrom, -j , countDayMonthYear);
+                
+                beforeplus = addTime(startfrom, -j + 1, countDayMonthYear);
+
+
+                jQuery.each(data, function (i, v) {
+                    var current = new Date(v.Time);
+                    current = StabilizeTime(current);
+
+                    if (current >= before && current <= beforeplus) {
+                        requests[j]++;
+                    }
+                });
+
+                dates[j] = displayTime(before, countDayMonthYear);
+            }
+
+            // code duplication. fix this.
+            var lineChartData = {
+                labels: dates,
+                datasets: [
+                    {
+                        label: "Requests in total",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgb(63, 127, 191)",
+                        pointColor: "rgb(63, 127, 191)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: requests
+                    }
+                ]
+
+            }
+
+            loadLineGraph(lineChartData, "canvas2");
+
+
+            var times = newFilledArray(24, 0);
+            jQuery.each(data, function (i, v) {
+                var current = new Date(v.Time);
+
+                current = StabilizeTime(current);
+
+                times[current.getHours()]++;
+                
+            });
+
+            //document.writeln(times);
+
+            // Ensured that they all add up to data.length. (testing.)
+
+
+            // avoid repetition. same color for both ine charts. put them into one method.
+            var lineChartData2 = {
+                labels: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+                datasets: [
+                    {
+                        label: "Time spread of requests",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgb(63, 127, 191)",
+                        pointColor: "rgb(63, 127, 191)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: times
+                    }
+                ]
+
+            };
+
+            loadLineGraph(lineChartData2, "canvas3");
+
+
+            for (var i = 0; i < 24; i++) {
+                $("#hour" + i).html( ((times[i] / data.length) * 100).toFixed(2) );
+            }
+
+        }
+
+        function loadGraph(barChartData) {
+                
+            var ctx = document.getElementById("canvas").getContext("2d");
+            
+            // bug, clear caanvas chart.
+                
+                window.myBar = new Chart(ctx).Bar(barChartData, {
+                    responsive: true
+                });
+                
+        }
+
+        // this fixes a weid thing in JS with diff. timezones.
+        function StabilizeTime(date) {
+            var newDate = new Date(date);
+            return new Date(newDate.setTime(newDate.getTime() + newDate.getTimezoneOffset() * 60000));
+        }
+
+        function loadLineGraph(lineChartData, c) {
+            var ctx = document.getElementById(c).getContext("2d");
+
+            // this can be made nicer, but the deadline is tomorrow...
+            if (c === "canvas2") {
+                window.myLine2 = new Chart(ctx).Line(lineChartData, {
+                    responsive: true
+                });
+            } else if (c === "canvas3") {
+                window.myLine3 = new Chart(ctx).Line(lineChartData, {
+                    responsive: true
+                });
+            }
+        }
+
+        // a method that will turn say 12345 to 12,345.
+        // from StackOverflow
+        function addCommas(nStr) {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        }
+
+        // install linq js.
+        // have to implement a datediff.
+
+        // line chart to illustrate data on a split time interval.
+
+
+        // http://stackoverflow.com/a/1295671/1275924
+        function newFilledArray(len, val) {
+            var rv = new Array(len);
+            while (--len >= 0) {
+                rv[len] = val;
+            }
+            return rv;
+        }
+
+        function addTime(date, a, type ) {
+            var result = new Date(date);
+            switch(type){
+                case 0:
+                    result.setDate(result.getDate() + a);
+                    break;
+                case 1:
+                    result.setMonth(result.getMonth() + a);
+                    break;
+                case 2:
+                    // needs testing.
+                    result.setYear(result.getFullYear() + a);
+                    break;
+            }
+            return result;
+        }
+
+        function displayTime(date, type) {
+            var monthNames = ["January", "February", "March", "April", "May", "June",
+"July", "August", "September", "October", "November", "December"
+            ];
+
+            switch (type) {
+                case 0:
+                    return  date.getDate() +  getEndingDay(date.getDate()) + " "+monthNames[date.getMonth()] ;
+                    break;
+                case 1:
+                    return monthNames[date.getMonth()];
+                    break;
+                case 2:
+                    return date.getFullYear();
+                    break;
+            }
+        }
+
+        function getEndingDay(i) {
+            if (i == 1) {
+                return "st";
+            } else if (i == 2) {
+                return "nd";
+            } else if (i == 3) {
+                return "rd";
+            } else {
+                return "th";
+            }
+
+        }
+
+        // from: http://stackoverflow.com/a/1353711/1275924
+        function checkDate(d) {
+            if (Object.prototype.toString.call(d) === "[object Date]") {
+                // it is a date
+                if (isNaN(d.getTime())) {  // d.valueOf() could also work
+                    // date is not valid
+                    return false;
+                }
+                else {
+                    // date is valid
+                    return true;
+                }
+            }
+            else {
+                // not a date
+                return false;
+            }
+        }
+
+    </script>
+
+}
+
